@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventario - Tienda</title>
+</head>
+<body>
+    <h1>Listado de Productos</h1>
+    <button onclick="cargarProductos()">Cargar productos</button>
+    <ul id="productos"></ul>
+
+    <script>
+        const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJleHAiOjE3NDgwNjYyMDcsImlzcyI6IlRpZW5kYUFwaUpXVCIsImF1ZCI6IlRpZW5kYUFwaUNsaWVudGVzIn0.QE6oX1-rsfjlhlkOnGXGIn8J4ovN1GCM-7acule-byw'; 
+
+    function cargarProductos() {
+      fetch("https://localhost:7199/api/productos", {
+        method: "GET",
+        headers: {
+          "Authorization": token
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        const lista = document.getElementById("productos");
+        lista.innerHTML = "";
+        data.forEach(prod => {
+          const li = document.createElement("li");
+          li.textContent = `${prod.nombre} - $${prod.precio}`;
+          lista.appendChild(li);
+        });
+      })
+      .catch(err => console.error(err));
+    }
+    </script>
+</body>
+</html>
